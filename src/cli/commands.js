@@ -61,12 +61,15 @@ class Commands {
             ConsoleFormatter.displayError('Command execution failed', error.message);
             throw error;
         }
-    }
-
-    // Run email search command - orijinal koddan
+    }    // Run email search command - orijinal koddan
     async runEmailSearch(args) {
         if (!Validators.isValidEmail(args.email)) {
             ConsoleFormatter.displayError('Invalid email address format');
+            return null;
+        }
+
+        if (Validators.isDisposableEmail(args.email)) {
+            ConsoleFormatter.displayError('Disposable email addresses are not allowed');
             return null;
         }
 
@@ -115,17 +118,29 @@ class Commands {
         return result;
     }
 
-    // Run user reconnaissance - orijinal koddan
+    // Run user reconnaissance - Enhanced with smart options
     async runUserRecon(args) {
         console.log(ColorUtils.green(`Starting reconnaissance on ${args.site} user: ${ColorUtils.yellow(args.user)}`));
 
-        let result = null;        if (args.site === 'github') {
+        let result = null;
+        if (args.site === 'github') {
             result = await GitHubUser.runRecon(args.user, {
                 downloadAvatarFlag: args.download_avatar,
                 saveFork: args.include_forks,
                 outputFormat: args.output,
-                verbose: args.verbose
-            });        } else {
+                verbose: args.verbose,
+                // Smart scanning options
+                smart: args.smart,
+                deep: args.deep,
+                maxAge: args.max_age,
+                parallel: args.parallel,
+                skipNoreply: args.skip_noreply,
+                scanNetwork: args.scan_network,
+                findSecrets: args.find_secrets,
+                exportNetwork: args.export_network,
+                maxRepos: args.max_repos
+            });
+        } else {
             result = await GitLabUser.runRecon(args.user, {
                 downloadAvatarFlag: args.download_avatar,
                 outputFormat: args.output,

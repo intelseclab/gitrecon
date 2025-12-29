@@ -50,27 +50,39 @@ ${ColorUtils.yellow('Output Options:')}
             content: `
 ${ColorUtils.yellow('Basic User Scan:')}
   ${ColorUtils.cyan('gitrecon --user johndoe')}
-  
+
+${ColorUtils.yellow('Smart Scanning (Recommended):')}
+  ${ColorUtils.cyan('gitrecon --user johndoe --smart')}
+  Prioritizes active repos, filters noreply emails, smarter analysis
+
+${ColorUtils.yellow('Deep Scan (Maximum Intel):')}
+  ${ColorUtils.cyan('gitrecon --user johndoe --deep')}
+  Includes gists, events, README emails, and more sources
+
+${ColorUtils.yellow('Smart + Deep (Full Recon):')}
+  ${ColorUtils.cyan('gitrecon --user johndoe --smart --deep --scan-network')}
+  Complete reconnaissance with network mapping
+
 ${ColorUtils.yellow('GitLab User with Output:')}
   ${ColorUtils.cyan('gitrecon --user johndoe --site gitlab --output html')}
-  
+
 ${ColorUtils.yellow('Organization Scan:')}
   ${ColorUtils.cyan('gitrecon --org mycompany --verbose')}
-  
+
 ${ColorUtils.yellow('Email Search:')}
   ${ColorUtils.cyan('gitrecon --email user@example.com')}
-  
+
 ${ColorUtils.yellow('Specific Repository:')}
   ${ColorUtils.cyan('gitrecon --user johndoe --repository myproject')}
-  
+
 ${ColorUtils.yellow('With API Token:')}
   ${ColorUtils.cyan('gitrecon --user johndoe --token ghp_xxxxxxxxxxxx')}
-  
-${ColorUtils.yellow('Include Forks & Download Avatar:')}
-  ${ColorUtils.cyan('gitrecon --user johndoe --include-forks --download-avatar')}
-  
-${ColorUtils.yellow('Custom Delay & Output Directory:')}
-  ${ColorUtils.cyan('gitrecon --user johndoe --delay 2000 --output-dir ./reports')}
+
+${ColorUtils.yellow('Scan Only Recent Repos (6 months):')}
+  ${ColorUtils.cyan('gitrecon --user johndoe --smart --max-age 6')}
+
+${ColorUtils.yellow('Parallel Requests (Faster):')}
+  ${ColorUtils.cyan('gitrecon --user johndoe --parallel 5 --token ghp_xxx')}
             `
         };
     }
@@ -94,6 +106,17 @@ ${ColorUtils.yellow('Platform & Behavior:')}
   -d, --delay <milliseconds>    Delay between API requests (default: 1000)
   -f, --include-forks          Include forked repositories in scan
       --max-repos <number>      Maximum repositories to scan
+
+${ColorUtils.yellow('Smart Scanning (NEW):')}
+      --smart                  Enable smart mode: prioritize active repos,
+                               filter noreply emails, analyze repo metadata
+      --deep                   Deep scan: gists, events, README, contributors
+      --max-age <months>       Only scan repos updated within N months
+      --parallel <number>      Parallel API requests (1-10, default: 3)
+      --skip-noreply           Skip noreply/automated email addresses
+      --scan-network           Scan followers/following for connections
+      --find-secrets           Detect potential secrets in commit messages
+      --export-network         Export network graph data
 
 ${ColorUtils.yellow('Output & Display:')}
   -p, --output <json|html|all>  Output format for saving results

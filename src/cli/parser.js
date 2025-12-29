@@ -100,6 +100,48 @@ class CliParser {
             default: 'default',
         });
 
+        // Smart scanning options
+        parser.add_argument('--smart', {
+            help: 'Enable smart scanning mode (prioritizes active repos, filters noreply emails)',
+            action: 'store_true',
+        });
+
+        parser.add_argument('--deep', {
+            help: 'Deep scan: includes gists, events, contributors, and README emails',
+            action: 'store_true',
+        });
+
+        parser.add_argument('--max-age', {
+            help: 'Only scan repos updated within N months (default: unlimited)',
+            type: Number,
+        });
+
+        parser.add_argument('--parallel', {
+            help: 'Number of parallel API requests (default: 3, max: 10)',
+            type: Number,
+            default: 3,
+        });
+
+        parser.add_argument('--skip-noreply', {
+            help: 'Skip noreply/automated email addresses',
+            action: 'store_true',
+        });
+
+        parser.add_argument('--scan-network', {
+            help: 'Also scan followers/following for additional intel',
+            action: 'store_true',
+        });
+
+        parser.add_argument('--find-secrets', {
+            help: 'Scan commit messages for potential secrets/sensitive data patterns',
+            action: 'store_true',
+        });
+
+        parser.add_argument('--export-network', {
+            help: 'Export network graph data (followers/following/orgs)',
+            action: 'store_true',
+        });
+
         return parser;
     }
 
@@ -138,6 +180,16 @@ class CliParser {
         // Max repos validation
         if (args.max_repos && (args.max_repos < 1 || args.max_repos > 1000)) {
             errors.push('Max repos must be between 1 and 1000');
+        }
+
+        // Parallel requests validation
+        if (args.parallel && (args.parallel < 1 || args.parallel > 10)) {
+            errors.push('Parallel requests must be between 1 and 10');
+        }
+
+        // Max age validation
+        if (args.max_age && (args.max_age < 1 || args.max_age > 120)) {
+            errors.push('Max age must be between 1 and 120 months');
         }
 
         return {
