@@ -31,7 +31,7 @@ class RateLimiter {
 
     // Set API token - updateHeader logic
     setToken(token, platform) {
-        if (!this.tokens.hasOwnProperty(platform)) {
+        if (!Object.hasOwn(this.tokens, platform)) { 
             throw new Error(`Unsupported platform: ${platform}. Supported platforms: ${Object.keys(this.tokens).join(', ')}`);
         }
         this.tokens[platform] = token;
@@ -277,7 +277,10 @@ class RateLimiter {
     }
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3f81ef5b8cc8d73f2e3f7707246199dad71cb969
     // Start countdown timer for rate limit reset
     startCountdown(seconds) {
         // Clear any existing countdown
